@@ -1,0 +1,9 @@
+# Archivos compilados y binarios
+*.exe
+*.o
+*.out
+*.obj
+*.dll
+
+# Configuraciones locales del editor
+.vscode/
