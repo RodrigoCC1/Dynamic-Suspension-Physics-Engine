@@ -1,5 +1,6 @@
 #ifndef SISTEMARESORTE_HPP
 #define SISTEMARESORTE_HPP
+#include <optional>
 
 class QuarterCar
 {
@@ -14,12 +15,7 @@ public:
         Estado operator*(double escalar) const;
     };
 
-    QuarterCar(
-        double c,
-        double k,
-        double m,
-        Estado estado_inicial
-    );
+    static std::optional<QuarterCar> createObjet(double c, double k, double m, Estado estado_inicial);
 
     Estado calculateDerivatives(double t, const Estado& estado_actual) const;
 
@@ -29,14 +25,16 @@ public:
 
 private:
 
-    double c;
-    double k;
-    double m;
-
     double k_m;
     double c_m;
 
     Estado estadoActual;
+
+        QuarterCar(
+        double c_m,
+        double k_m,
+        Estado estado_inicial
+    );
 };
 
 #endif

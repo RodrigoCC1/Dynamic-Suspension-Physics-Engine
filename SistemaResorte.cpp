@@ -1,8 +1,16 @@
 #include "SistemaResorte.hpp"
+#include <optional>
 
-//////////////////////////////////////////////////////////////
-QuarterCar::QuarterCar(double c, double k, double m, Estado estado_inicial) :
-    c(c), k(k), m(m), estadoActual(estado_inicial), k_m(k / m), c_m(c / m){}
+QuarterCar::QuarterCar(double c_m, double k_m, Estado estado_inicial) :
+    c_m(c_m), k_m(k_m), estadoActual(estado_inicial){}
+
+std::optional<QuarterCar> QuarterCar::createObjet(double c, double k, double m, Estado estado_inicial){
+    if(m <= 0.0) return std::nullopt;
+    double cm = c / m;
+    double km = k / m;
+
+    return QuarterCar(cm, km, estado_inicial);
+}
 
 QuarterCar::Estado QuarterCar::Estado::operator +(const Estado& estado_nuevo) const{
     Estado sumarEstado;
@@ -11,7 +19,7 @@ QuarterCar::Estado QuarterCar::Estado::operator +(const Estado& estado_nuevo) co
     return sumarEstado;
 }
 
-QuarterCar::Estado QuarterCar::Estado::operator * (double escalar) const {
+QuarterCar::Estado QuarterCar::Estado::operator *(double escalar) const {
     Estado multiplicarEstado;
     multiplicarEstado.posicion = posicion * escalar;
     multiplicarEstado.velocidad = velocidad * escalar;

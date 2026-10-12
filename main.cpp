@@ -9,12 +9,22 @@ int main () {
     double t = 0.0; // tiempo
     double constexpr tiempoFinal = 5.0; // tiempo de simulacion en segundos
 
-    QuarterCar car (1500, 25000, 250, QuarterCar::Estado{0.05,0.0});
+    double constexpr k = m * (Wn * Wn);
+    double constexpr c = 2.0 * C * m * Wn;
+
+    std::optional<QuarterCar> car = QuarterCar::createObjet(c, k, m, QuarterCar::Estado{0.05,0.0});
+
+    if(!car.has_value()){
+        std::cout << "Fallo critico, no se puede iniciar el modelo por division entre 0.\n";
+        return -1;
+    }
 
     while (t <= tiempoFinal){
-        QuarterCar::Estado estado = car.getEstado();
+        QuarterCar::Estado estado = car->getEstado();
         std::cout << t << "," << estado.posicion << "\n";
-        car.stepRK4(h,t);
+        car->stepRK4(h,t);
         t = t + h;
     }
+
+    return 0;
 }
